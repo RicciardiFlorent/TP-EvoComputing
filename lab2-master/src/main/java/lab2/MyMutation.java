@@ -6,19 +6,27 @@ import java.util.List;
 import java.util.Random;
 
 public class MyMutation implements EvolutionaryOperator<double[]> {
+	private int counter = 0;
+	private int converge;
 	
-
+	public MyMutation(int converge) {
+		this.converge = converge;
+	}
     public List<double[]> apply(List<double[]> population, Random random) {
-        // initial population
-        // need to change individuals, but not their number!
-    	for(int i = 0; i < population.size(); i++) {
-    		double [] newIndiv = population.get(i); 
-    		newIndiv[0] = random.nextGaussian(); //change the value x of an individual
-    		population.set(i, newIndiv);
-    	}
-
-    	
-        //result population
+    	counter++;
+    	double rate = 0.4;
+        int size = population.size();
+        double mut_probability = 0.2;
+        double mut_strenght=0.15 * (1.0 - (double)counter  / (double)converge) + 0.01;// (0.1*dimension);
+        double sigma = 0.5*(1.0 - (double)counter / (double)converge) + 0.01; //can be decreased with iterations
+        for (double[] individual : population) {
+            if (random.nextDouble() < mut_probability) {
+                for (int i = 0; i < individual.length; i++) { // all dimension
+                    if (random.nextDouble() < mut_strenght)
+                        individual[i] += random.nextGaussian()*sigma;
+                }
+            }
+        }
         return population;
     }
 }

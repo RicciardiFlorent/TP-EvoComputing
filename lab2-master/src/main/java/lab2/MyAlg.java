@@ -12,7 +12,7 @@ import java.util.Random;
 public class MyAlg {
 
     public static void main(String[] args) {
-        int dimension = 2; // dimension of problem
+        int dimension = 10; // dimension of problem
         int populationSize = 100; // size of population
         int generations = 10000; // number of generations
 
@@ -22,7 +22,7 @@ public class MyAlg {
 
         ArrayList<EvolutionaryOperator<double[]>> operators = new ArrayList<EvolutionaryOperator<double[]>>();
         operators.add(new MyCrossover()); // Crossover
-        operators.add(new MyMutation()); // Mutation
+        operators.add(new MyMutation(generations)); // Mutation
         EvolutionPipeline<double[]> pipeline = new EvolutionPipeline<double[]>(operators);
 
         SelectionStrategy<Object> selection = new RouletteWheelSelection(); // Selection operator
